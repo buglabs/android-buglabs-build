@@ -15,7 +15,7 @@ KERNEL_TARGET := bzImage
 TARGET_KERNEL_CONFIG ?= android-x86_defconfig
 endif
 ifeq ($(TARGET_ARCH),arm)
-KERNEL_TARGET := zImage
+KERNEL_TARGET ?= zImage
 TARGET_KERNEL_CONFIG ?= goldfish_defconfig
 endif
 
