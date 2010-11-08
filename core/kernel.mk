@@ -7,6 +7,7 @@
 #
 #      http://www.apache.org/licenses/LICENSE-2.0
 #
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 
 ifeq ($(TARGET_ARCH),x86)
@@ -44,7 +45,7 @@ BUILT_KERNEL_TARGET := $(KBUILD_OUTPUT)/arch/$(TARGET_ARCH)/boot/$(KERNEL_TARGET
 .PHONY: _zimage
 _zimage: $(KERNEL_DOTCONFIG_FILE)
 	@echo "**** BUILDING KERNEL ($(TARGET_KERNEL_CONFIG)) ****"
-	$(mk_kernel) oldconfig
+	$(mk_kernel) $(TARGET_KERNEL_CONFIG)
 	$(mk_kernel) $(KERNEL_TARGET) $(if $(MOD_ENABLED),modules)
 
 .PHONY: _modules
