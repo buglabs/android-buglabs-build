@@ -10,6 +10,12 @@
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 
+# Either kernel build target is explicitly given or
+# derived from architecture
+ifneq ($(TARGET_KERNEL_TARGET),)
+KERNEL_TARGET := $(TARGET_KERNEL_TARGET)
+#TARGET_KERNEL_CONFIG is supposed to be provided
+else
 ifeq ($(TARGET_ARCH),x86)
 KERNEL_TARGET := bzImage
 TARGET_KERNEL_CONFIG ?= android-x86_defconfig
@@ -17,6 +23,7 @@ endif
 ifeq ($(TARGET_ARCH),arm)
 KERNEL_TARGET ?= zImage
 TARGET_KERNEL_CONFIG ?= goldfish_defconfig
+endif
 endif
 
 KBUILD_OUTPUT := $(CURDIR)/$(TARGET_OUT_INTERMEDIATES)/kernel
@@ -44,6 +51,8 @@ $(KERNEL_DOTCONFIG_FILE): $(KERNEL_CONFIG_FILE) | $(ACP)
 BUILT_KERNEL_TARGET := $(KBUILD_OUTPUT)/arch/$(TARGET_ARCH)/boot/$(KERNEL_TARGET)
 .PHONY: _zimage
 _zimage: $(KERNEL_DOTCONFIG_FILE)
+	@echo "* cleaning possible previous build *"
+	$(mk_kernel) mrproper
 	@echo "**** BUILDING KERNEL ($(TARGET_KERNEL_CONFIG)) ****"
 	$(mk_kernel) $(TARGET_KERNEL_CONFIG)
 	$(mk_kernel) $(KERNEL_TARGET) $(if $(MOD_ENABLED),modules)
