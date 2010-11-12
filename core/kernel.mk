@@ -64,8 +64,8 @@ _modules: _zimage
 ifeq ($(TARGET_PREBUILT_MODULES),)
 	@echo "**** BUILDING MODULES ****"
 	$(hide) rm -rf $(TARGET_OUT)/lib/modules
-	$(if $(MOD_ENABLED),$(mk_kernel) INSTALL_MOD_PATH=$(CURDIR)/$(TARGET_OUT) modules_install)
-	$(hide) rm -f $(TARGET_OUT)/lib/modules/*/{build,source}
+	$(if $(MOD_ENABLED),$(mk_kernel) DEPMOD=true MODLIB=$(CURDIR)/$(TARGET_OUT)/lib/modules/ modules_install)
+	$(hide) rm -f $(TARGET_OUT)/lib/modules/{build,source}
 else
 	$(hide) $(ACP) -r $(TARGET_PREBUILT_MODULES) $(TARGET_OUT)/lib	
 endif
