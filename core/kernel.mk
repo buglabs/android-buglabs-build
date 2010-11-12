@@ -8,6 +8,8 @@
 #      http://www.apache.org/licenses/LICENSE-2.0
 #
 
+# git test
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 
 # Either kernel build target is explicitly given or
